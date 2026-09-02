@@ -14,7 +14,7 @@ const PLANS = [
     features: [
       "1 página (Landing Page)",
       "Estrutura focada em conversão",
-      "Formulário de contacto",
+      "Formulário de contato",
       "SEO básico",
       "Publicação do site",
     ],

@@ -19,13 +19,13 @@ const SERVICES = [
     n: "01",
     icon: Globe,
     title: "Sites institucionais",
-    text: "O site completo da sua empresa: páginas de apresentação, serviços, equipa, diferenciais e contacto. A vitrine profissional que passa credibilidade para quem pesquisa o seu negócio.",
+    text: "O site completo da sua empresa: páginas de apresentação, serviços, equipe, diferenciais e contato. A vitrine profissional que passa credibilidade para quem pesquisa o seu negócio.",
   },
   {
     n: "02",
     icon: Rocket,
     title: "Landing Pages",
-    text: "Uma única página construída com um objetivo: converter. Ideal para campanhas de anúncios, lançamentos e ofertas específicas, com estrutura pensada para transformar visitas em contactos.",
+    text: "Uma única página construída com um objetivo: converter. Ideal para campanhas de anúncios, lançamentos e ofertas específicas, com estrutura pensada para transformar visitas em contatos.",
   },
   {
     n: "03",
@@ -37,13 +37,13 @@ const SERVICES = [
     n: "04",
     icon: LayoutGrid,
     title: "Estrutura e conteúdo",
-    text: "Definição de quais páginas o site precisa, o que entra em cada uma, a ordem das seções e onde ficam as chamadas para ação. É o esqueleto e o texto que guiam o visitante até o contacto.",
+    text: "Definição de quais páginas o site precisa, o que entra em cada uma, a ordem das seções e onde ficam as chamadas para ação. É o esqueleto e o texto que guiam o visitante até o contato.",
   },
   {
     n: "05",
     icon: Plug,
     title: "Formulários e integrações",
-    text: "Formulário de contacto e orçamento ligado às ferramentas que você já usa: WhatsApp, e-mail, Google Maps, planilhas e CRM. Cada contacto do site chega direto onde a sua equipa trabalha.",
+    text: "Formulário de contato e orçamento ligado às ferramentas que você já usa: WhatsApp, e-mail, Google Maps e planilhas. Cada contato do site chega direto onde a sua equipe trabalha.",
   },
   {
     n: "06",
