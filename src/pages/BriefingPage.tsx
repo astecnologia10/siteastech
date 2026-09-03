@@ -7,7 +7,7 @@ import logo from "@/assets/logo.svg";
 export function BriefingPage() {
   useEffect(() => {
     const previous = document.title;
-    document.title = "Briefing de Projeto — AS Tech";
+    document.title = "Briefing de Projeto | AS Tech";
     return () => {
       document.title = previous;
     };
@@ -57,7 +57,7 @@ export function BriefingPage() {
       </main>
 
       <footer className="container-edge border-t border-line-soft py-8 text-xs text-mist-dim">
-        AS Tech © 2026 — Tecnologia que conecta.
+        AS Tech © 2026. Tecnologia que conecta.
       </footer>
     </div>
   );

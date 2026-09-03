@@ -49,7 +49,7 @@ const SERVICES = [
     n: "06",
     icon: LifeBuoy,
     title: "Acompanhamento",
-    text: "Suporte depois da publicação: pequenos ajustes, troca de conteúdo e melhorias ao longo do tempo, conforme o negócio evolui — sem precisar refazer o site do zero.",
+    text: "Suporte depois da publicação: pequenos ajustes, troca de conteúdo e melhorias ao longo do tempo, conforme o negócio evolui, sem precisar refazer o site do zero.",
   },
 ];
 

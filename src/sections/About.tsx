@@ -61,7 +61,7 @@ export function About() {
                 Somos uma empresa de tecnologia especializada na criação de
                 sites institucionais com Inteligência Artificial. Fundada por
                 sócios apaixonados por inovação, nascemos para democratizar a
-                presença digital — entregando soluções modernas, ágeis e
+                presença digital, entregando soluções modernas, ágeis e
                 acessíveis para quem deseja crescer no mundo digital sem
                 burocracia.
               </p>

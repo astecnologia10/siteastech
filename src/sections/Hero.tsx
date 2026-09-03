@@ -53,7 +53,7 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.55 }}
             className="mt-8 max-w-md text-balance text-lg leading-relaxed text-bone-dim"
           >
-            Rápido, inteligente e acessível — a presença digital que o seu
+            Rápido, inteligente e acessível. A presença digital que o seu
             negócio precisa, pronta em dias.
           </motion.p>
 

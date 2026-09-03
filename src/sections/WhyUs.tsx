@@ -7,7 +7,7 @@ const REASONS = [
   {
     icon: Rocket,
     title: "Velocidade",
-    text: "Entrega em até 7 dias úteis — até 10x mais rápido que agências tradicionais.",
+    text: "Entrega em até 7 dias úteis, até 10x mais rápido que agências tradicionais.",
   },
   {
     icon: Fingerprint,
@@ -22,7 +22,7 @@ const REASONS = [
   {
     icon: Smartphone,
     title: "Responsivo & SEO",
-    text: "Sites otimizados para Google e perfeitos em qualquer dispositivo — mobile first.",
+    text: "Sites otimizados para Google e perfeitos em qualquer dispositivo, mobile first.",
   },
 ];
 

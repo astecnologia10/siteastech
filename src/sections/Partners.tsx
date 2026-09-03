@@ -28,7 +28,7 @@ const PARTNERS: Partner[] = [
   {
     name: "Virtuágil",
     category: "IoT & Automação Comercial",
-    text: "Monitoramento inteligente de equipamentos — temperatura, energia, gases e acionamentos remotos — para reduzir custos e dar controle às operações.",
+    text: "Monitoramento inteligente de equipamentos: temperatura, energia, gases e acionamentos remotos, para reduzir custos e dar controle às operações.",
     href: "https://virtuagil.com.br/",
     logo: logoVirtuagil,
   },

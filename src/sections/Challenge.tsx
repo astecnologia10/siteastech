@@ -9,7 +9,7 @@ const PROBLEMS = [
   {
     icon: Clock,
     title: "Demorado",
-    text: "Agências tradicionais levam semanas — às vezes meses — para entregar um site simples.",
+    text: "Agências tradicionais levam semanas, às vezes meses, para entregar um site simples.",
   },
   {
     icon: DollarSign,
@@ -29,7 +29,7 @@ const COST_BARS = [
     width: 70,
     parts: [
       { prefix: "R$ ", value: 3, suffix: "K" },
-      { prefix: " – ", value: 15, suffix: "K" },
+      { prefix: " a ", value: 15, suffix: "K" },
     ],
   },
   {
@@ -114,7 +114,7 @@ export function Challenge() {
               </div>
 
               <p className="mt-8 border-t border-line-soft pt-6 text-sm italic leading-relaxed text-mist">
-                Enquanto isso, clientes em potencial pesquisam — e não te
+                Enquanto isso, clientes em potencial pesquisam e não te
                 encontram.
               </p>
             </div>

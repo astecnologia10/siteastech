@@ -43,7 +43,7 @@ export function FinalCTA() {
           >
             Fale com a AS Tech hoje e descubra como a Inteligência Artificial
             pode transformar a sua presença digital em poucos dias.
-            Tecnologia que conecta — pessoas, negócios e oportunidades.
+            Tecnologia que conecta pessoas, negócios e oportunidades.
           </motion.p>
 
           <motion.div

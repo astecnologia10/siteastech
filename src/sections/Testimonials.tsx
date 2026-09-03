@@ -28,7 +28,7 @@ const REVIEWS = [
   },
   {
     quote:
-      "Equipe atenta a cada detalhe. Da estrutura ao design, tudo foi construído com estratégia — não é só um site bonito, é uma ferramenta que funciona.",
+      "Equipe atenta a cada detalhe. Da estrutura ao design, tudo foi construído com estratégia. Não é só um site bonito, é uma ferramenta que funciona.",
     name: "Lucas Andrade",
     role: "CEO, Andrade Engenharia",
   },

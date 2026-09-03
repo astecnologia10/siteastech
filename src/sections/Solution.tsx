@@ -38,7 +38,7 @@ export function Solution() {
                 A AS Tech utiliza IA de ponta para criar sites institucionais
                 profissionais de forma rápida, personalizada e acessível.
                 Nossa tecnologia analisa o seu negócio e gera uma presença
-                digital única — sem burocracia, sem espera e sem custo
+                digital única, sem burocracia, sem espera e sem custo
                 excessivo.
               </p>
             </FadeIn>
@@ -66,7 +66,7 @@ export function Solution() {
               </h3>
               <p className="mt-4 leading-relaxed text-mist">
                 Nossa IA identifica setor, tom de voz e objetivos para gerar
-                uma estrutura sob medida — sem partir de um template
+                uma estrutura sob medida, sem partir de um template
                 genérico.
               </p>
             </div>

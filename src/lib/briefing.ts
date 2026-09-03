@@ -109,7 +109,7 @@ export const BRIEFING_STEPS: BriefingStep[] = [
         options: [
           "Tenho logo + identidade completa (cores e fontes definidas)",
           "Tenho só a logo",
-          "Não tenho nada — preciso de ajuda com isso",
+          "Não tenho nada, preciso de ajuda com isso",
         ],
       },
       {
@@ -196,7 +196,7 @@ function formatValue(value: string | string[]): string {
 
 /** Monta a mensagem do briefing completo para envio via WhatsApp. */
 export function buildBriefingWaLink(values: BriefingValues) {
-  const lines: string[] = ["📋 *BRIEFING DE PROJETO — AS Tech*", ""];
+  const lines: string[] = ["📋 *BRIEFING DE PROJETO | AS Tech*", ""];
 
   for (const step of BRIEFING_STEPS) {
     const answered = step.fields.filter((f) => {
