@@ -20,7 +20,11 @@ export interface BriefingField {
   options?: string[];
   /** Ocupa metade da largura em telas médias/grandes. */
   half?: boolean;
+  /** Se definido, o campo só aparece quando a função retornar true (com base nas respostas já dadas). */
+  showIf?: (values: BriefingValues) => boolean;
 }
+
+const isAutomacao = (values: BriefingValues) => values.tipo === "Automação / Inteligência Artificial";
 
 export interface BriefingStep {
   title: string;
@@ -40,6 +44,7 @@ export const BRIEFING_STEPS: BriefingStep[] = [
       { id: "email", label: "E-mail", type: "email", required: true, half: true, placeholder: "voce@email.com" },
       { id: "telefone", label: "Telefone / WhatsApp", type: "tel", required: true, half: true, placeholder: "(00) 00000-0000" },
       { id: "segmento", label: "Segmento / ramo de atividade", type: "text", required: true, placeholder: "Ex.: clínica odontológica, escritório de advocacia, loja de roupas" },
+      { id: "historia", label: "Conte um pouco sobre a história da empresa", type: "textarea", placeholder: "Ex.: há quanto tempo existe, o que faz de diferente da concorrência, alguma conquista ou marco que vale contar no site." },
       { id: "presenca_atual", label: "Já tem site ou redes sociais?", type: "textarea", placeholder: "Cole aqui os links do site atual, Instagram, etc.", help: "Se ainda não tem nada, é só deixar em branco." },
     ],
   },
@@ -56,7 +61,6 @@ export const BRIEFING_STEPS: BriefingStep[] = [
         options: [
           "Landing page (1 página)",
           "Site institucional (várias páginas)",
-          "Sistema / plataforma web",
           "Automação / Inteligência Artificial",
           "Ainda não sei",
         ],
@@ -77,7 +81,13 @@ export const BRIEFING_STEPS: BriefingStep[] = [
         ],
       },
       { id: "publico", label: "Quem é o público-alvo?", type: "textarea", required: true, placeholder: "Descreva o cliente ideal: idade, região, o que procura, como decide a compra." },
-      { id: "paginas", label: "Quais páginas ou seções o site deve ter?", type: "textarea", placeholder: "Ex.: Home, Sobre, Serviços, Planos, Contato" },
+      {
+        id: "paginas",
+        label: "Quais páginas ou seções o site deve ter?",
+        type: "textarea",
+        placeholder: "Ex.: Home, Sobre, Serviços, Planos, Contato",
+        showIf: (v) => !isAutomacao(v),
+      },
       {
         id: "funcionalidades",
         label: "Precisa de alguma funcionalidade específica?",
@@ -85,12 +95,35 @@ export const BRIEFING_STEPS: BriefingStep[] = [
         options: [
           "Formulário de contato",
           "Integração com WhatsApp",
-          "Área do cliente / login",
+          "Integração com Google Maps",
           "Agendamento online",
           "Chat / chatbot",
+          "Blog",
           "Site em mais de um idioma",
           "Não sei ainda",
         ],
+        showIf: (v) => !isAutomacao(v),
+      },
+      {
+        id: "processo_automatizar",
+        label: "Qual processo você quer automatizar?",
+        type: "textarea",
+        placeholder: "Ex.: atendimento no WhatsApp, envio de orçamentos, agendamento, resposta de e-mails.",
+        showIf: isAutomacao,
+      },
+      {
+        id: "ferramentas_atuais",
+        label: "Quais ferramentas ou sistemas você já usa hoje?",
+        type: "textarea",
+        placeholder: "Ex.: WhatsApp Business, planilha, Instagram, sistema de vendas.",
+        showIf: isAutomacao,
+      },
+      {
+        id: "volume_atendimento",
+        label: "Mais ou menos quantos atendimentos/mensagens você recebe por dia?",
+        type: "text",
+        placeholder: "Ex.: 10 a 20 por dia",
+        showIf: isAutomacao,
       },
       { id: "concorrentes", label: "Cite 2 ou 3 concorrentes ou referências do seu mercado", type: "textarea", placeholder: "Nomes ou links. O que eles fazem bem? O que falta neles?" },
       { id: "referencias", label: "Sites que você acha bonitos ou funcionais", type: "textarea", placeholder: "Cole links de sites que você gosta e diga o que te agrada neles (visual, textos, organização...)." },
@@ -124,6 +157,17 @@ export const BRIEFING_STEPS: BriefingStep[] = [
           "Catálogo ou lista de produtos",
           "Depoimentos de clientes",
           "Nada ainda",
+        ],
+      },
+      {
+        id: "textos_responsavel",
+        label: "Quem vai escrever os textos do site?",
+        type: "radio",
+        options: [
+          "Já tenho os textos prontos em PDF/Word, vou enviar",
+          "Eu mesmo vou escrever e enviar pra AS Tech",
+          "Prefiro que a AS Tech escreva pra mim",
+          "Ainda não sei",
         ],
       },
       { id: "tom", label: "Que sensação o site deve passar?", type: "text", placeholder: "Ex.: moderno, confiável, sofisticado, acolhedor, tecnológico" },
@@ -200,6 +244,7 @@ export function buildBriefingWaLink(values: BriefingValues) {
 
   for (const step of BRIEFING_STEPS) {
     const answered = step.fields.filter((f) => {
+      if (f.showIf && !f.showIf(values)) return false;
       const v = values[f.id];
       return Array.isArray(v) ? v.length > 0 : Boolean(v?.trim());
     });
@@ -225,13 +270,19 @@ export interface BriefingPayloadField {
 }
 
 /** Serializa todas as respostas (respondidas ou não) na ordem do formulário. */
-export function buildBriefingPayload(values: BriefingValues, honeypot = "") {
+export function buildBriefingPayload(values: BriefingValues, honeypot = "", lgpdConsent = false) {
   const fields: BriefingPayloadField[] = [];
   for (const step of BRIEFING_STEPS) {
     for (const f of step.fields) {
+      if (f.showIf && !f.showIf(values)) continue;
       fields.push({ id: f.id, label: f.label, value: formatValue(values[f.id] ?? "") });
     }
   }
+  fields.push({
+    id: "lgpd_consent",
+    label: "Aceite de uso de dados (LGPD)",
+    value: lgpdConsent ? "Sim" : "Não",
+  });
   return { submittedAt: new Date().toISOString(), honeypot, fields };
 }
 
@@ -239,7 +290,11 @@ export function buildBriefingPayload(values: BriefingValues, honeypot = "") {
  * Envia o briefing para o Google Apps Script, que grava a linha na planilha
  * e dispara o e-mail para a AS Tech. Lança erro se o envio falhar.
  */
-export async function submitBriefing(values: BriefingValues, honeypot = ""): Promise<void> {
+export async function submitBriefing(
+  values: BriefingValues,
+  honeypot = "",
+  lgpdConsent = false
+): Promise<void> {
   if (!BRIEFING_ENDPOINT) {
     throw new Error("Endpoint do briefing não configurado (VITE_BRIEFING_ENDPOINT).");
   }
@@ -247,7 +302,7 @@ export async function submitBriefing(values: BriefingValues, honeypot = ""): Pro
   const res = await fetch(BRIEFING_ENDPOINT, {
     method: "POST",
     // text/plain evita o preflight de CORS do navegador com o Apps Script.
-    body: JSON.stringify(buildBriefingPayload(values, honeypot)),
+    body: JSON.stringify(buildBriefingPayload(values, honeypot, lgpdConsent)),
   });
 
   if (!res.ok) throw new Error(`Falha no envio (HTTP ${res.status}).`);

@@ -30,9 +30,14 @@ export function BriefingForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [honeypot, setHoneypot] = useState("");
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
 
   const isReview = step === TOTAL;
   const current = BRIEFING_STEPS[step];
+  const currentFields = isReview
+    ? []
+    : current.fields.filter((f) => !f.showIf || f.showIf(values));
   const progress = Math.round((step / TOTAL) * 100);
 
   function setValue(id: string, value: string | string[]) {
@@ -48,7 +53,7 @@ export function BriefingForm() {
   function validateStep(): boolean {
     if (isReview) return true;
     const next: Record<string, string> = {};
-    for (const field of current.fields) {
+    for (const field of currentFields) {
       if (!field.required) continue;
       if (!isFilled(values[field.id])) {
         next[field.id] = "Campo obrigatório.";
@@ -72,10 +77,14 @@ export function BriefingForm() {
   }
 
   async function submit() {
+    if (!lgpdConsent) {
+      setLgpdError(true);
+      return;
+    }
     setStatus("sending");
     setErrorMsg("");
     try {
-      await submitBriefing(values, honeypot);
+      await submitBriefing(values, honeypot, lgpdConsent);
       setStatus("success");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
@@ -145,7 +154,7 @@ export function BriefingForm() {
               )}
 
               <div className="mt-7 grid gap-6 sm:grid-cols-2">
-                {current.fields.map((field) => (
+                {currentFields.map((field) => (
                   <FieldRenderer
                     key={field.id}
                     field={field}
@@ -160,6 +169,32 @@ export function BriefingForm() {
           )}
         </motion.div>
       </AnimatePresence>
+
+      {isReview && (
+        <div className="mt-6 rounded-2xl border border-line bg-charcoal p-5">
+          <label className="flex cursor-pointer items-start gap-3 text-sm text-mist">
+            <input
+              type="checkbox"
+              checked={lgpdConsent}
+              onChange={(e) => {
+                setLgpdConsent(e.target.checked);
+                if (e.target.checked) setLgpdError(false);
+              }}
+              className="mt-0.5 size-4 shrink-0 rounded border-line bg-ink/40 accent-signal"
+            />
+            <span>
+              Autorizo a AS Tech a usar essas informações apenas para elaborar minha
+              proposta e entrar em contato comigo. Meus dados não serão compartilhados
+              com terceiros.
+            </span>
+          </label>
+          {lgpdError && (
+            <p className="mt-2 text-xs text-red-400">
+              É preciso aceitar para enviar o briefing.
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Honeypot anti-spam (invisível para humanos) */}
       <div aria-hidden="true" className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
@@ -379,7 +414,9 @@ function Review({
 
       <div className="mt-7 space-y-7">
         {BRIEFING_STEPS.map((s, i) => {
-          const answered = s.fields.filter((f) => isFilled(values[f.id]));
+          const answered = s.fields.filter(
+            (f) => (!f.showIf || f.showIf(values)) && isFilled(values[f.id])
+          );
           return (
             <div key={s.title}>
               <div className="flex items-center justify-between">

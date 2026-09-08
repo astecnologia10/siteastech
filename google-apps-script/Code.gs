@@ -34,10 +34,27 @@ function doPost(e) {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(ABA) || ss.insertSheet(ABA);
 
-    // Cabeçalho na primeira vez.
+    var headerRow = ["Data/hora"].concat(labels);
+
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["Data/hora"].concat(labels));
+      // Planilha nova: cria o cabeçalho pela primeira vez.
+      sheet.appendRow(headerRow);
       sheet.setFrozenRows(1);
+    } else {
+      // Planilha já existe: se as perguntas do site mudaram desde a última
+      // vez, atualiza o cabeçalho para acompanhar (evita colunas trocadas).
+      var currentHeader = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+      var mudou =
+        currentHeader.length !== headerRow.length ||
+        headerRow.some(function (h, i) { return h !== currentHeader[i]; });
+      if (mudou) {
+        sheet.getRange(1, 1, 1, headerRow.length).setValues([headerRow]);
+        if (currentHeader.length > headerRow.length) {
+          sheet
+            .getRange(1, headerRow.length + 1, 1, currentHeader.length - headerRow.length)
+            .clearContent();
+        }
+      }
     }
 
     var quando = payload.submittedAt ? new Date(payload.submittedAt) : new Date();
